@@ -13,7 +13,7 @@
             <a href="/" class="text-xl font-bold text-indigo-600">LaravelVercel</a>
             <div class="space-x-4">
                 <a href="/" class="hover:text-indigo-600">Home</a>
-                <a href="/blog" class="hover:text-indigo-600">Blog</a>
+                <a href="{{ route('blogs.index') }}" class="hover:text-indigo-600">Blog</a>
                 <a href="/about" class="text-indigo-600 font-bold">About</a>
             </div>
         </div>

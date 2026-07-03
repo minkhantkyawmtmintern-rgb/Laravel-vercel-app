@@ -1,19 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); });
+Route::get('/about', function () { return view('about'); });
 
-Route::get('/blog', function () {
-    return view('blog.index');
-});
-
-Route::get('/blog/{id}', function ($id) {
-    return view('blog.show', ['id' => $id]);
-});
-
-Route::get('/about', function () {
-    return view('about');
-});
+Route::resource('blogs', BlogController::class);

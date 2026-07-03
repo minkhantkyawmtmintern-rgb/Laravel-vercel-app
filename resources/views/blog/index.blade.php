@@ -13,33 +13,57 @@
             <a href="/" class="text-xl font-bold text-indigo-600">LaravelVercel</a>
             <div class="space-x-4">
                 <a href="/" class="hover:text-indigo-600">Home</a>
-                <a href="/blog" class="text-indigo-600 font-bold">Blog</a>
+                <a href="/blogs" class="text-indigo-600 font-bold">Blog</a>
                 <a href="/about" class="hover:text-indigo-600">About</a>
             </div>
         </div>
     </nav>
 
     <main class="max-w-6xl mx-auto px-4">
-        <h2 class="text-3xl font-bold mb-6">နောက်ဆုံးရဆောင်းပါးများ</h2>
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-3xl font-bold">နောက်ဆုံးရဆောင်းပါးများ</h2>
+            <a href="/blogs/create" class="bg-indigo-600 text-white px-4 py-2 rounded-md shadow hover:bg-indigo-700 text-sm font-medium">
+                + ဆောင်းပါးအသစ်တင်ရန်
+            </a>
+        </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Blog Card 1 -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
-                <div class="p-6">
-                    <h3 class="font-bold text-xl mb-2">Vercel ပေါ်မှာ Laravel Serverless deploy လုပ်နည်း</h3>
-                    <p class="text-gray-600 text-sm mb-4">ဒီဆောင်းပါးမှာတော့ modern Laravel app တွေကို Vercel platform ပေါ်မှာ စက္ကန့်ပိုင်းအတွင်း အခမဲ့ဘယ်လိုတင်မလဲဆိုတာ...</p>
-                    <a href="/blog/1" class="text-indigo-600 font-medium hover:underline">ဆက်လက်ဖတ်ရှုရန် &rarr;</a>
-                </div>
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
+                {{ session('success') }}
             </div>
+        @endif
 
-            <!-- Blog Card 2 -->
-            <div class="bg-white rounded-lg shadow overflow-hidden">
-                <div class="p-6">
-                    <h3 class="font-bold text-xl mb-2">Laravel 13 ၏ ထူးခြားချက်အသစ်များ</h3>
-                    <p class="text-gray-600 text-sm mb-4">PHP 8.3 ရဲ့ စွမ်းဆောင်ရည်တွေနဲ့အတူ ပိုမိုမြန်ဆန်သွက်လက်လာတဲ့ Laravel ၏ နောက်ဆုံးထွက် version အကြောင်း...</p>
-                    <a href="/blog/2" class="text-indigo-600 font-medium hover:underline">ဆက်လက်ဖတ်ရှုရန် &rarr;</a>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @forelse($blogs as $blog)
+                <div class="bg-white rounded-lg shadow overflow-hidden flex flex-col justify-between">
+                    <div class="p-6">
+                        <h3 class="font-bold text-xl mb-2">{{ $blog->title }}</h3>
+                        <p class="text-gray-600 text-sm mb-4">{{ Str::limit($blog->content, 100) }}</p>
+                    </div>
+                    
+                    <div class="px-6 pb-4 pt-3 flex justify-between items-center bg-gray-50 border-t border-gray-100">
+                        <a href="/blogs/{{ $blog->id }}" class="text-indigo-600 font-medium hover:underline text-xs">
+                            ဖတ်ရှုရန် &rarr;
+                        </a>
+                        
+                        <div class="flex items-center space-x-3">
+                            <a href="/blogs/{{ $blog->id }}/edit" class="text-amber-600 hover:text-amber-800 text-xs font-medium">
+                                ပြင်မည်
+                            </a>
+
+                            <form action="/blogs/{{ $blog->id }}" method="POST" onsubmit="return confirm('သေချာပါသလား‌?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500 hover:text-red-700 text-xs">ဖျက်မည်</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            @empty
+                <div class="col-span-full bg-white p-10 rounded-lg text-center shadow">
+                    <p class="text-gray-500">ဆောင်းပါးများ မရှိသေးပါ‌။</p>
+                </div>
+            @endforelse
         </div>
     </main>
 
