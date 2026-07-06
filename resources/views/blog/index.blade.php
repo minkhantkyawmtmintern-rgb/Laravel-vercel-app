@@ -65,6 +65,9 @@
                 </div>
             @endforelse
         </div>
+        <div class="mt-8 mb-10">
+            {{ $blogs->links() }}
+        </div>
     </main>
 
 </body>
